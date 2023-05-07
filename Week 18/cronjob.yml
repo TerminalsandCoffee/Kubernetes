@@ -1,0 +1,26 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: combined-cronjob
+spec:
+  schedule: "0 8 * * *" # Runs at 8 AM EST every day
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: kubectl-runner
+            image: bitnami/kubectl
+            command:
+            - /bin/sh
+            - -c
+            args:
+            - kubectl apply -f /configs/combined.yaml
+            volumeMounts:
+            - name: configs
+              mountPath: /configs
+          restartPolicy: OnFailure
+          volumes:
+          - name: configs
+            configMap:
+              name: combined-config
