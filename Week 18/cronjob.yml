@@ -14,6 +14,7 @@ spec:
             command:
             - /bin/sh
             - -c
+            - date; echo Hello from Rafs Kubernetes cluster
             args:
             - kubectl apply -f /configs/combined.yaml
             volumeMounts:
